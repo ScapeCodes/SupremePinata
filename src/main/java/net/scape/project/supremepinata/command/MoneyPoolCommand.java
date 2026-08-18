@@ -16,12 +16,10 @@ import java.util.List;
 public final class MoneyPoolCommand implements CommandExecutor, TabCompleter {
     private final MessageService messages;
     private final MoneyPoolService moneyPool;
-    private final IntegrationManager integrations;
 
     public MoneyPoolCommand(MessageService messages, MoneyPoolService moneyPool, IntegrationManager integrations) {
         this.messages = messages;
         this.moneyPool = moneyPool;
-        this.integrations = integrations;
     }
 
     @Override
@@ -42,11 +40,6 @@ public final class MoneyPoolCommand implements CommandExecutor, TabCompleter {
             messages.send(sender, "money-pool-disabled");
             return true;
         }
-        if (!integrations.vaultEnabled()) {
-            messages.send(sender, "vault-required");
-            return true;
-        }
-
         double amount = parseAmount(args[0]);
         if (amount <= 0.0D) {
             messages.send(sender, "money-pool-invalid-amount");

@@ -136,7 +136,7 @@ public final class PinataCommand implements CommandExecutor, TabCompleter {
 
     private boolean reload(CommandSender sender) {
         if (!perm(sender, "supremepinata.command.reload")) return true;
-        plugin.reloadServices(plugin.getConfig().getBoolean("reload.stop-active-event", true));
+        plugin.reloadServices(plugin.getConfig().getBoolean("settings.reload.stop-active-event", true));
         messages.send(sender, "reload-success");
         return true;
     }

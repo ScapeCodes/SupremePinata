@@ -3,47 +3,44 @@
 # |                     Settings                         | #
 # +------------------------------------------------------+ #
 ############################################################
+# Join M.O.S.S discord if you're in need of assistance or want to request a suggestion:
+# https://discord.gg/PHpuzZS
 
 settings:
-  locale: en_US
-  debug: false
-
-reload:
-  # Active events are deliberately stopped on reload so entities, bossbars and displays cannot duplicate.
-  stop-active-event: true
-
-vote-party:
-  enabled: true
-  required-votes: 100
-  current-votes: 0
-  pinata: vote
-  reset-after-party: true
-  announcements:
-    milestones: [25, 50, 75, 90]
-
-money-pool:
-  enabled: true
-  target: 50000.0
-  current: 0.0
-  pinata: money
-  reset-after-spawn: true
-
-triggers:
-  vote:
+  economy:
+    type: VAULT # Available eco types: [VAULT, PLAYERPOINTS, EXP_LEVELS, EXCELLENTECONOMY-currencyhere]
+  reload:
+    # Active events are deliberately stopped on reload so entities, bossbars and displays cannot duplicate.
+    stop-active-event: true
+  vote-party:
     enabled: true
-  schedule:
-    enabled: false
-  player-count:
-    enabled: false
-  command:
-    enabled: true
+    required-votes: 100
+    current-votes: 0
+    pinata: vote
+    reset-after-party: true
+    announcements:
+      milestones: [25, 50, 75, 90]
   money-pool:
     enabled: true
-
-vote-sites:
-  minecraft-server-list:
-    name: "Minecraft Server List"
-    url: "https://minecraft-server-list.com/"
-  planet-minecraft:
-    name: "Planet Minecraft"
-    url: "https://www.planetminecraft.com/"
+    target: 50000.0
+    current: 0.0
+    pinata: money
+    reset-after-spawn: true
+  triggers:
+    vote:
+      enabled: true
+    schedule:
+      enabled: false
+    player-count:
+      enabled: false
+    command:
+      enabled: true
+    money-pool:
+      enabled: true
+  vote-sites:
+    minecraft-server-list:
+      name: "Minecraft Server List"
+      url: "https://minecraft-server-list.com/"
+    planet-minecraft:
+      name: "Planet Minecraft"
+      url: "https://www.planetminecraft.com/"

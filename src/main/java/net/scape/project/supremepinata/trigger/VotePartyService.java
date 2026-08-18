@@ -29,24 +29,24 @@ public final class VotePartyService implements PinataTrigger {
     @Override
     public void reload() {
         FileConfiguration cfg = plugin.getConfig();
-        enabled = cfg.getBoolean("vote-party.enabled", true);
-        requiredVotes = Math.max(1, cfg.getInt("vote-party.required-votes", 100));
-        currentVotes = cfg.getInt("vote-party.current-votes", 0);
-        pinata = cfg.getString("vote-party.pinata", "vote");
-        reset = cfg.getBoolean("vote-party.reset-after-party", true);
+        enabled = cfg.getBoolean("settings.vote-party.enabled", true);
+        requiredVotes = Math.max(1, cfg.getInt("settings.vote-party.required-votes", 100));
+        currentVotes = cfg.getInt("settings.vote-party.current-votes", 0);
+        pinata = cfg.getString("settings.vote-party.pinata", "vote");
+        reset = cfg.getBoolean("settings.vote-party.reset-after-party", true);
     }
 
     public void addVote(String voter) {
         if (!enabled) return;
         currentVotes++;
-        for (int milestone : plugin.getConfig().getIntegerList("vote-party.announcements.milestones")) {
+        for (int milestone : plugin.getConfig().getIntegerList("settings.vote-party.announcements.milestones")) {
             if (currentVotes == milestone) Bukkit.broadcast(messages.component("vote-milestone", Map.of("%votes%", String.valueOf(currentVotes), "%required%", String.valueOf(requiredVotes))));
         }
         if (currentVotes >= requiredVotes) {
             Bukkit.broadcast(messages.component("vote-party-start", Map.of("%votes%", String.valueOf(currentVotes), "%required%", String.valueOf(requiredVotes))));
             manager.spawn(pinata, null);
             if (reset) currentVotes = 0;
-            plugin.getConfig().set("vote-party.current-votes", currentVotes);
+            plugin.getConfig().set("settings.vote-party.current-votes", currentVotes);
             plugin.saveConfig();
         }
     }

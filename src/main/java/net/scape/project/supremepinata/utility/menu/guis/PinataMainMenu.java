@@ -38,7 +38,7 @@ public final class PinataMainMenu extends Menu {
             case 12 -> new PinataSelectorMenu(menuUtil, plugin, messages, registry, manager, true).open();
             case 14 -> new VoteSitesMenu(menuUtil, plugin).open();
             case 16 -> {
-                plugin.reloadServices(plugin.getConfig().getBoolean("reload.stop-active-event", true));
+                plugin.reloadServices(plugin.getConfig().getBoolean("settings.reload.stop-active-event", true));
                 messages.send(menuUtil.getOwner(), "reload-success");
                 refresh();
             }

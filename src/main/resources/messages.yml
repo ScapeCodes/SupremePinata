@@ -61,7 +61,7 @@ debug: |
   
   <yellow>✦</yellow> <white>Version:</white> <gray>%version%</gray>
   <yellow>✦</yellow> <white>Author:</white> <gray>%author%</gray>
-  <yellow>✦</yellow> <white>Discord:</white> <gray>%discord%</gray>
+  <yellow>✦</yellow> <white>Discord:</white> <gray>https://discord.gg/PHpuzZS</gray>
   
   <gold>Basic Information:</gold>
   <yellow>✦</yellow> <white>Pinatas Loaded:</white> <green>%pinatas_loaded%</green>

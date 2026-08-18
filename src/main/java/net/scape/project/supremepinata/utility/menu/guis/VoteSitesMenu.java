@@ -22,7 +22,7 @@ public final class VoteSitesMenu extends Menu {
     public VoteSitesMenu(MenuUtil menuUtil, SupremePinata plugin) {
         super(menuUtil);
         this.plugin = plugin;
-        ConfigurationSection section = plugin.getConfig().getConfigurationSection("vote-sites");
+        ConfigurationSection section = plugin.getConfig().getConfigurationSection("settings.vote-sites");
         if (section != null) {
             for (String key : section.getKeys(false)) sites.add(new VoteSite(section.getString(key + ".name", key), section.getString(key + ".url", "")));
         }
@@ -48,7 +48,7 @@ public final class VoteSitesMenu extends Menu {
             VoteSite site = sites.get(i);
             inventory.setItem(i, item(Material.EMERALD, "&a&l✔ " + site.name(), "&7Click to receive the vote link.", "&b" + site.url()));
         }
-        if (sites.isEmpty()) inventory.setItem(13, item(Material.BARRIER, "&c&lNo vote sites configured", "&7Add links under &fvote-sites &7in config.yml."));
+        if (sites.isEmpty()) inventory.setItem(13, item(Material.BARRIER, "&c&lNo vote sites configured", "&7Add links under &fsettings.vote-sites &7in config.yml."));
         fill();
     }
 

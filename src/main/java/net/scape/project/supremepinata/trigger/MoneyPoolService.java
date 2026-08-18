@@ -3,6 +3,7 @@ package net.scape.project.supremepinata.trigger;
 import net.scape.project.supremepinata.config.MessageService;
 import net.scape.project.supremepinata.integration.IntegrationManager;
 import net.scape.project.supremepinata.pinata.PinataManager;
+import net.scape.project.supremepinata.utility.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ public final class MoneyPoolService {
     private double current;
     private String pinata;
     private boolean resetAfterSpawn;
+    private String economyType;
 
     public MoneyPoolService(JavaPlugin plugin, MessageService messages, PinataManager manager, IntegrationManager integrations) {
         this.plugin = plugin;
@@ -30,15 +32,17 @@ public final class MoneyPoolService {
 
     public void reload() {
         FileConfiguration cfg = plugin.getConfig();
-        enabled = cfg.getBoolean("money-pool.enabled", true);
-        target = Math.max(0.01D, cfg.getDouble("money-pool.target", 50000.0D));
-        current = Math.max(0.0D, cfg.getDouble("money-pool.current", 0.0D));
-        pinata = cfg.getString("money-pool.pinata", "money");
-        resetAfterSpawn = cfg.getBoolean("money-pool.reset-after-spawn", true);
+        enabled = cfg.getBoolean("settings.money-pool.enabled", true);
+        target = Math.max(0.01D, cfg.getDouble("settings.money-pool.target", 50000.0D));
+        current = Math.max(0.0D, cfg.getDouble("settings.money-pool.current", 0.0D));
+        pinata = cfg.getString("settings.money-pool.pinata", "money");
+        resetAfterSpawn = cfg.getBoolean("settings.money-pool.reset-after-spawn", true);
+        economyType = cfg.getString("settings.economy.type", "VAULT");
     }
 
     public boolean add(Player player, double amount) {
-        if (!enabled || amount <= 0.0D || !integrations.withdraw(player, amount)) return false;
+        if (!enabled || amount <= 0.0D || !Utils.hasAmount(player, economyType, amount, "money-pool")) return false;
+        Utils.take(player, economyType, amount, "money-pool");
         current += amount;
         saveCurrent();
         Bukkit.broadcast(messages.component("money-pool-contribution", placeholders(player.getName(), amount)));
@@ -72,7 +76,7 @@ public final class MoneyPoolService {
     }
 
     private void saveCurrent() {
-        plugin.getConfig().set("money-pool.current", current);
+        plugin.getConfig().set("settings.money-pool.current", current);
         plugin.saveConfig();
     }
 
@@ -80,4 +84,5 @@ public final class MoneyPoolService {
     public double current() { return current; }
     public double target() { return target; }
     public String pinata() { return pinata; }
+    public String economyType() { return economyType; }
 }
