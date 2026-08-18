@@ -1,3 +1,9 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                    Messages                          | #
+# +------------------------------------------------------+ #
+############################################################
+
 prefix: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA PARTY</bold></gradient><dark_gray>]</dark_gray>"
 no-permission: "%prefix% <red>✖ Party pass denied! You do not have permission to do that."
 unknown-command: "%prefix% <red>✖ That party trick does not exist! Use <white>/pinata help</white>."
@@ -9,12 +15,15 @@ help: |
   <yellow>✦</yellow> <white>/pinata menu</white>
   <yellow>✦</yellow> <white>/pinata editor <type></white>
   <yellow>✦</yellow> <white>/pinata vote</white>
+  <yellow>✦</yellow> <white>/pinata stats [player]</white>
+  <yellow>✦</yellow> <white>/pinata debug</white>
   <yellow>✦</yellow> <white>/pinata reload</white>
   <yellow>✦</yellow> <white>/pinata location set <pinata> [name]</white>
   <yellow>✦</yellow> <white>/pinata location delete/list</white>
 usage-spawn: "%prefix% <red>✖ Usage: <white>/pinata spawn <type> [x y z world]</white>"
 usage-editor: "%prefix% <red>✖ Usage: <white>/pinata editor <type></white>"
 usage-location: "%prefix% <red>✖ Usage: <white>/pinata location set <pinata> [name]</white>, <white>delete <name></white>, or <white>list</white>"
+usage-stats: "%prefix% <red>✖ Usage: <white>/pinata stats [player]</white>"
 player-only: "%prefix% <red>✖ Only players can open menus."
 unknown-pinata: "%prefix% <red>✖ Unknown pinata type: <white>%type%</white>."
 invalid-world: "%prefix% <red>✖ That party world is not loaded."
@@ -31,6 +40,34 @@ location-set-pinata: "%prefix% <green>✔ Party location <white>%name%</white> h
 location-delete: "%prefix% <yellow>✦ Party location <white>%name%</white> has been removed."
 location-list: "%prefix% <yellow>✦ Party locations:</yellow> <white>%locations%</white>"
 location-save-failed: "%prefix% <red>✖ Could not save party locations. Check console for details."
+stats-loading: "%prefix% <gray>✦ Loading party stats for <white>%player%</white>..."
+stats: |
+  <dark_gray>✔</dark_gray> <gradient:#ff4d6d:#ffd166><bold>%player%'s PINATA STATS</bold></gradient> <dark_gray>✔</dark_gray>
+  <yellow>✦</yellow> <white>Total Hits:</white> <green>%total_hits%</green>
+  <yellow>✦</yellow> <white>Parties Participated:</white> <green>%parties_participated%</green>
+  <yellow>✦</yellow> <white>Parties Won:</white> <green>%parties_won%</green>
+  <yellow>✦</yellow> <white>Final Hits:</white> <green>%final_hits%</green>
+  <yellow>✦</yellow> <white>Rewards Won:</white> <green>%rewards_won%</green>
+debug: |
+  <dark_gray>✔</dark_gray> <gradient:#ff4d6d:#ffd166><bold>SupremePinata Debug Report</bold></gradient> <dark_gray>✔</dark_gray>
+  
+  <yellow>✦</yellow> <white>Version:</white> <gray>%version%</gray>
+  <yellow>✦</yellow> <white>Author:</white> <gray>%author%</gray>
+  <yellow>✦</yellow> <white>Discord:</white> <gray>%discord%</gray>
+  
+  <gold>Basic Information:</gold>
+  <yellow>✦</yellow> <white>Pinatas Loaded:</white> <green>%pinatas_loaded%</green>
+  <yellow>✦</yellow> <white>Locations Loaded:</white> <green>%locations_loaded%</green>
+  <yellow>✦</yellow> <white>Database Type:</white> <green>%db_type%</green>
+  <yellow>✦</yellow> <white>Database Connected:</white> <green>%db_connected%</green>
+  
+  <gold>Plugin Hooks:</gold>
+  <yellow>✦</yellow> <white>Vault:</white> %hook_vault%
+  <yellow>✦</yellow> <white>PlaceholderAPI:</white> %hook_placeholderapi%
+  <yellow>✦</yellow> <white>NuVotifier:</white> %hook_nuvotifier%
+  <yellow>✦</yellow> <white>VotifierPlus:</white> %hook_votifierplus%
+  
+  <green>Debug complete.</green>
 event-started: "%prefix% <green>✔</green> <gradient:#ff4d6d:#ffd166><bold>A PINATA PARTY HAS STARTED!</bold></gradient> <yellow>Hit it for prizes!</yellow>"
 event-complete: "%prefix% <green>✔</green> <gold>%player%</gold> <yellow>landed the final hit!</yellow> <gradient:#ff4d6d:#ffd166><bold>PARTY COMPLETE!</bold></gradient>"
 vote-milestone: "%prefix% <aqua>✦ Vote Party:</aqua> <white>%votes%/%required%</white> <yellow>votes collected!</yellow>"

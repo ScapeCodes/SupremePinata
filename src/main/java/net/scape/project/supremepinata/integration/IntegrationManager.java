@@ -43,4 +43,16 @@ public final class IntegrationManager {
         economy.depositPlayer(player, amount);
         return true;
     }
+
+    public boolean vaultEnabled() {
+        return economy != null;
+    }
+
+    public boolean placeholderApiEnabled() {
+        return placeholderHook != null;
+    }
+
+    public boolean pluginEnabled(String pluginName) {
+        return Bukkit.getPluginManager().isPluginEnabled(pluginName);
+    }
 }

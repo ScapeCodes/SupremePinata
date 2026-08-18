@@ -5,12 +5,16 @@ import net.scape.project.supremepinata.config.MessageService;
 import net.scape.project.supremepinata.config.PinataRegistry;
 import net.scape.project.supremepinata.location.LocationService;
 import net.scape.project.supremepinata.pinata.PinataManager;
+import net.scape.project.supremepinata.statistics.DataSettings;
+import net.scape.project.supremepinata.statistics.PlayerStats;
+import net.scape.project.supremepinata.statistics.StatisticsService;
 import net.scape.project.supremepinata.trigger.VotePartyService;
 import net.scape.project.supremepinata.utility.menu.guis.PinataEditorMenu;
 import net.scape.project.supremepinata.utility.menu.guis.PinataMainMenu;
 import net.scape.project.supremepinata.utility.menu.guis.VoteSitesMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,14 +40,16 @@ public final class PinataCommand implements CommandExecutor, TabCompleter {
     private final PinataManager manager;
     private final LocationService locations;
     private final VotePartyService votes;
+    private final StatisticsService statistics;
 
-    public PinataCommand(SupremePinata plugin, MessageService messages, PinataRegistry registry, PinataManager manager, LocationService locations, VotePartyService votes) {
+    public PinataCommand(SupremePinata plugin, MessageService messages, PinataRegistry registry, PinataManager manager, LocationService locations, VotePartyService votes, StatisticsService statistics) {
         this.plugin = plugin;
         this.messages = messages;
         this.registry = registry;
         this.manager = manager;
         this.locations = locations;
         this.votes = votes;
+        this.statistics = statistics;
     }
 
     @Override
@@ -58,6 +64,8 @@ public final class PinataCommand implements CommandExecutor, TabCompleter {
             case "vote", "votesites" -> vote(sender);
             case "reload" -> reload(sender);
             case "location" -> location(sender, args);
+            case "stats", "statistics" -> stats(sender, args);
+            case "debug" -> debug(sender);
             default -> { messages.send(sender, "unknown-command"); yield true; }
         };
     }
@@ -181,6 +189,75 @@ public final class PinataCommand implements CommandExecutor, TabCompleter {
         cfg.save(file);
     }
 
+    private boolean stats(CommandSender sender, String[] args) {
+        if (!perm(sender, "supremepinata.command.stats")) return true;
+        OfflinePlayer target = resolveStatsTarget(sender, args);
+        if (target == null || target.getUniqueId() == null) {
+            messages.send(sender, "usage-stats");
+            return true;
+        }
+
+        messages.send(sender, "stats-loading", Map.of("%player%", target.getName() == null ? target.getUniqueId().toString() : target.getName()));
+        statistics.load(target.getUniqueId()).thenAccept(stats -> sendStats(sender, target, stats));
+        return true;
+    }
+
+    private OfflinePlayer resolveStatsTarget(CommandSender sender, String[] args) {
+        if (args.length >= 2) return Bukkit.getOfflinePlayer(args[1]);
+        return sender instanceof Player player ? player : null;
+    }
+
+    private void sendStats(CommandSender sender, OfflinePlayer target, PlayerStats stats) {
+        String name = target.getName() == null ? target.getUniqueId().toString() : target.getName();
+        messages.send(sender, "stats", Map.of(
+                "%player%", name,
+                "%total_hits%", String.valueOf(stats.totalHits()),
+                "%parties_participated%", String.valueOf(stats.partiesParticipated()),
+                "%parties_won%", String.valueOf(stats.partiesWon()),
+                "%final_hits%", String.valueOf(stats.finalHits()),
+                "%rewards_won%", String.valueOf(stats.rewardsWon())
+        ));
+    }
+
+    private boolean debug(CommandSender sender) {
+        if (!perm(sender, "supremepinata.command.debug")) return true;
+
+        DataSettings data = plugin.getDataFile().settings();
+        messages.send(sender, "debug", debugPlaceholders(data));
+        return true;
+    }
+
+    private Map<String, String> debugPlaceholders(DataSettings data) {
+        Map<String, String> placeholders = new java.util.HashMap<>();
+        placeholders.put("%version%", plugin.getDescription().getVersion());
+        placeholders.put("%author%", String.join(", ", plugin.getDescription().getAuthors()));
+        placeholders.put("%discord%", "N/A");
+        placeholders.put("%pinatas_loaded%", String.valueOf(registry.types().size()));
+        placeholders.put("%locations_loaded%", String.valueOf(locations.names().size()));
+        placeholders.put("%db_type%", data.type().name());
+        placeholders.put("%db_connected%", "true");
+        placeholders.put("%hook_vault%", enabled(plugin.getIntegrationManager().vaultEnabled()));
+        placeholders.put("%hook_placeholderapi%", enabled(plugin.getIntegrationManager().placeholderApiEnabled()));
+        placeholders.put("%hook_nuvotifier%", enabled(plugin.getIntegrationManager().pluginEnabled("NuVotifier")));
+        placeholders.put("%hook_votifierplus%", enabled(plugin.getIntegrationManager().pluginEnabled("VotifierPlus")));
+        placeholders.put("%config_errors%", configErrors());
+        placeholders.put("%papi_test_votes%", "%supremepinata_votes%");
+        placeholders.put("%papi_test_wins%", "%supremepinata_wins%");
+        return placeholders;
+    }
+
+    private String enabled(boolean value) {
+        return value ? "&aEnabled" : "&cDisabled";
+    }
+
+    private String configErrors() {
+        List<String> errors = new ArrayList<>();
+        if (registry.types().isEmpty()) errors.add("&8- &cNo pinata types loaded.");
+        if (locations.names().isEmpty()) errors.add("&8- &eNo saved party locations loaded.");
+        if (errors.isEmpty()) return "&8- &aNo configuration problems found.";
+        return String.join("\n", errors);
+    }
+
     private boolean help(CommandSender sender) {
         if (!perm(sender, "supremepinata.command.help")) return true;
         messages.send(sender, "help");
@@ -195,10 +272,11 @@ public final class PinataCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 1) return filter(List.of("spawn", "stop", "info", "menu", "editor", "vote", "reload", "help", "location"), args[0]);
+        if (args.length == 1) return filter(List.of("spawn", "stop", "info", "menu", "editor", "vote", "reload", "help", "location", "stats", "debug"), args[0]);
         if (args.length == 2 && args[0].equalsIgnoreCase("spawn")) return filter(new ArrayList<>(registry.types().keySet()), args[1]);
         if (args.length == 2 && (args[0].equalsIgnoreCase("editor") || args[0].equalsIgnoreCase("edit"))) return filter(new ArrayList<>(registry.types().keySet()), args[1]);
         if (args.length == 2 && args[0].equalsIgnoreCase("location")) return filter(List.of("set", "delete", "list"), args[1]);
+        if (args.length == 2 && (args[0].equalsIgnoreCase("stats") || args[0].equalsIgnoreCase("statistics"))) return filter(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), args[1]);
         if (args.length == 3 && args[0].equalsIgnoreCase("location") && args[1].equalsIgnoreCase("set")) return filter(new ArrayList<>(registry.types().keySet()), args[2]);
         if (args.length == 4 && args[0].equalsIgnoreCase("location") && args[1].equalsIgnoreCase("set")) return filter(List.of(args[2].toLowerCase()), args[3]);
         if (args.length == 3 && args[0].equalsIgnoreCase("location") && args[1].equalsIgnoreCase("delete")) return filter(locations.names(), args[2]);

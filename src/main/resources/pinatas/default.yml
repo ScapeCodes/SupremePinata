@@ -61,7 +61,7 @@ reward-pools:
     supremetags_example:
       weight: 1
       commands:
-        - "supremetags grant %player% pinata_master"
+        - "lp user %player% permission set supremetags.tag.pinata"
       broadcast: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>found a rare Pinata Master tag reward!</yellow>"
   participation:
     xp:

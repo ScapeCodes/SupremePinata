@@ -29,6 +29,8 @@ permissions:
       supremepinata.command.vote: true
       supremepinata.command.reload: true
       supremepinata.command.location: true
+      supremepinata.command.stats: true
+      supremepinata.command.debug: true
       supremepinata.command.help: true
   supremepinata.command.spawn:
     default: op
@@ -45,6 +47,10 @@ permissions:
   supremepinata.command.reload:
     default: op
   supremepinata.command.location:
+    default: op
+  supremepinata.command.stats:
+    default: true
+  supremepinata.command.debug:
     default: op
   supremepinata.command.help:
     default: true
