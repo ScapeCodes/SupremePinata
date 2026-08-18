@@ -2,7 +2,7 @@
 
 **SupremePinata** is a free, open-source Pinata Party / server event plugin for modern Paper servers.
 
-It targets Paper 1.21+ and Java 21, uses Adventure/MiniMessage for player-facing text, and is designed around configuration-driven pinata types, optional integrations, async storage, and clean APIs.
+It targets Paper 1.21/26+ and Java 21, uses Adventure/MiniMessage for player-facing text, and is designed around configuration-driven pinata types, optional integrations, async storage, and clean APIs.
 
 ## Features
 
@@ -24,7 +24,7 @@ It targets Paper 1.21+ and Java 21, uses Adventure/MiniMessage for player-facing
 ## Requirements
 
 - Java 21
-- Paper 1.21+
+- Paper 1.21/26+
 - Folia is supported through region/entity scheduler detection and `folia-supported: true`
 - No required dependencies
 
@@ -34,16 +34,6 @@ Optional integrations:
 - Vault-compatible economy
 - NuVotifier or VotifierPlus
 - SupremeTags via generic reward commands
-
-## Build
-
-```bat
-gradlew.bat build
-```
-
-The included Windows bootstrap downloads Gradle 9.4.0 into `.gradle/bootstrap/` when the normal wrapper jar is unavailable. The compiled plugin jar is produced in `build/libs/`.
-
-The runtime jar intentionally does **not** shade Paper, Adventure, PlaceholderAPI, Vault, or SQLite. SQLite is declared in `plugin.yml` under `libraries`, so Bukkit downloads it at runtime instead of inflating the plugin jar by ~13MB.
 
 ## Commands
 
@@ -177,4 +167,3 @@ The API avoids requiring consumers to depend on implementation details beyond pu
 - The event loop updates once per second and does not scan all entities.
 - BossBars and TextDisplays are reused and updated instead of recreated.
 - MiniMessage is parsed only for current display/message updates and uses simple cached services for message files.
-- All event entities, displays, bossbars, and tasks are cleaned on event end, reload, and plugin disable.
