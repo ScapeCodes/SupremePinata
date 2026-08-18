@@ -16,6 +16,10 @@ commands:
     description: SupremePinata administrative command.
     usage: /pinata help
     aliases: [supremepinata, spinata]
+  pinatapool:
+    description: Shows or contributes to the SupremePinata money pool.
+    usage: /pinatapool [money]
+    aliases: [ppool, pinatamoney]
 permissions:
   supremepinata.admin:
     description: Allows all SupremePinata admin commands.
@@ -31,6 +35,7 @@ permissions:
       supremepinata.command.location: true
       supremepinata.command.stats: true
       supremepinata.command.debug: true
+      supremepinata.command.pool: true
       supremepinata.command.help: true
   supremepinata.command.spawn:
     default: op
@@ -52,5 +57,7 @@ permissions:
     default: true
   supremepinata.command.debug:
     default: op
+  supremepinata.command.pool:
+    default: true
   supremepinata.command.help:
     default: true

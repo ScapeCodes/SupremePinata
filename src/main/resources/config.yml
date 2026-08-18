@@ -21,6 +21,13 @@ vote-party:
   announcements:
     milestones: [25, 50, 75, 90]
 
+money-pool:
+  enabled: true
+  target: 50000.0
+  current: 0.0
+  pinata: money
+  reset-after-spawn: true
+
 triggers:
   vote:
     enabled: true
@@ -29,6 +36,8 @@ triggers:
   player-count:
     enabled: false
   command:
+    enabled: true
+  money-pool:
     enabled: true
 
 vote-sites:

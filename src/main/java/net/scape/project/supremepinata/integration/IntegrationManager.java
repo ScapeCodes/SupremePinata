@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.milkbowl.vault.economy.EconomyResponse;
 
 public final class IntegrationManager {
     private final JavaPlugin plugin;
@@ -42,6 +43,16 @@ public final class IntegrationManager {
         if (economy == null) return false;
         economy.depositPlayer(player, amount);
         return true;
+    }
+
+    public boolean withdraw(Player player, double amount) {
+        if (economy == null) return false;
+        EconomyResponse response = economy.withdrawPlayer(player, amount);
+        return response.transactionSuccess();
+    }
+
+    public String format(double amount) {
+        return economy == null ? String.format("%,.2f", amount) : economy.format(amount);
     }
 
     public boolean vaultEnabled() {

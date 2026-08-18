@@ -1,0 +1,65 @@
+id: money
+display-name: "<gradient:#f6d365:#fda085><bold>MONEY PINATA</bold></gradient>"
+entity:
+  type: LLAMA
+  knockback: false
+  invulnerable: true
+  glow: true
+  rainbow: true
+  rainbow-interval-ticks: 8
+event:
+  required-hits: 300
+  duration: 300
+  hit-cooldown-ms: 400
+  max-hits-per-player: -1
+  minimum-participation: 1
+  max-distance: 8
+  projectile-hits: false
+  survival-only-hits: true
+movement:
+  enabled: true
+  speed: 1.15
+  radius: 18
+locations: []
+bossbar:
+  enabled: true
+  title: "<gold>Money Pinata <gray>• <white>%hits%/%required_hits% <gray>• <yellow>%time_remaining%s"
+  progress: true
+  color: YELLOW
+  overlay: PROGRESS
+hologram:
+  enabled: true
+  height: 2.7
+  lines:
+    - "<gold><bold>💰 MONEY PINATA 💰</bold>"
+    - "<white>%hits%</white><gray>/</gray><white>%required_hits%</white> <yellow>Hits"
+    - "<gray>Top:</gray> <aqua>%top_player%</aqua> <white>%top_hits%</white>"
+sounds:
+  spawn: ENTITY_PLAYER_LEVELUP
+  hit: ENTITY_LLAMA_HURT
+  complete: UI_TOAST_CHALLENGE_COMPLETE
+particles:
+  spawn: HAPPY_VILLAGER
+  hit: CRIT
+  complete: FIREWORK
+reward-pools:
+  hit:
+    coins:
+      weight: 100
+      money: 50
+      message: "<dark_gray>[</dark_gray><gold><bold>MONEY PINATA</bold></gold><dark_gray>]</dark_gray> <green>✔</green> <yellow>You won $50 from the money pinata!</yellow>"
+  participation:
+    participant_money:
+      weight: 100
+      money: 250
+      message: "<dark_gray>[</dark_gray><gold><bold>MONEY PINATA</bold></gold><dark_gray>]</dark_gray> <green>✔</green> <yellow>Thanks for joining the money party! You received $250.</yellow>"
+  final-hit:
+    final_money:
+      weight: 100
+      money: 1000
+      broadcast: "<dark_gray>[</dark_gray><gold><bold>MONEY PINATA</bold></gold><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>landed the final hit and won $1,000!</yellow>"
+  top-1:
+    top_money:
+      weight: 100
+      money: 2500
+      broadcast: "<dark_gray>[</dark_gray><gold><bold>MONEY PINATA</bold></gold><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>was the #1 contributor and won $2,500!</yellow>"

@@ -1,6 +1,9 @@
 package net.scape.project.supremepinata;
 
+import dev.faststats.Metrics;
+import dev.faststats.bukkit.BukkitContext;
 import net.scape.project.supremepinata.api.SupremePinataProvider;
+import net.scape.project.supremepinata.command.MoneyPoolCommand;
 import net.scape.project.supremepinata.command.PinataCommand;
 import net.scape.project.supremepinata.config.MessageService;
 import net.scape.project.supremepinata.config.PinataRegistry;
@@ -15,6 +18,7 @@ import net.scape.project.supremepinata.statistics.DataFile;
 import net.scape.project.supremepinata.statistics.JdbcStatisticsStorage;
 import net.scape.project.supremepinata.statistics.StatisticsStorage;
 import net.scape.project.supremepinata.statistics.StatisticsService;
+import net.scape.project.supremepinata.trigger.MoneyPoolService;
 import net.scape.project.supremepinata.trigger.VotePartyService;
 import net.scape.project.supremepinata.utility.menu.MenuUtil;
 import net.scape.project.supremepinata.utility.SchedulerService;
@@ -41,7 +45,12 @@ public final class SupremePinata extends JavaPlugin {
     private IntegrationManager integrationManager;
     private PinataManager pinataManager;
     private VotePartyService votePartyService;
+    private MoneyPoolService moneyPoolService;
     private SchedulerService schedulerService;
+
+    private final BukkitContext context = new BukkitContext.Factory(this, "faa0a53659ec1c9512c139705449a3d9")
+            .metrics(Metrics.Factory::create)
+            .create();
 
     private static final ConcurrentHashMap<UUID, MenuUtil> menuUtilMap = new ConcurrentHashMap<>();
 
@@ -49,11 +58,14 @@ public final class SupremePinata extends JavaPlugin {
     public void onEnable() {
         supremePinata = this;
 
+        context.ready();
+
         saveDefaultConfig();
         saveResourceIfMissing("data.yml");
         saveResourceIfMissing("messages.yml");
         saveResourceIfMissing("pinatas/default.yml");
         saveResourceIfMissing("pinatas/vote.yml");
+        saveResourceIfMissing("pinatas/money.yml");
         saveResourceIfMissing("pinatas/legendary.yml");
 
         this.messages = new MessageService(this);
@@ -69,6 +81,7 @@ public final class SupremePinata extends JavaPlugin {
         this.statisticsService = new StatisticsService(storage, getLogger());
         this.pinataManager = new PinataManager(this, schedulerService, messages, pinataRegistry, locationService, rewardService, statisticsService);
         this.votePartyService = new VotePartyService(this, messages, pinataManager);
+        this.moneyPoolService = new MoneyPoolService(this, messages, pinataManager, integrationManager);
 
         reloadServices(false);
         storage.start().thenRun(() -> getLogger().info("SQLite statistics storage ready."));
@@ -83,6 +96,11 @@ public final class SupremePinata extends JavaPlugin {
         pluginCommand.setExecutor(command);
         pluginCommand.setTabCompleter(command);
 
+        MoneyPoolCommand poolCommand = new MoneyPoolCommand(messages, moneyPoolService, integrationManager);
+        PluginCommand pluginPoolCommand = Objects.requireNonNull(getCommand("pinatapool"), "pinatapool command missing from plugin.yml");
+        pluginPoolCommand.setExecutor(poolCommand);
+        pluginPoolCommand.setTabCompleter(poolCommand);
+
         SupremePinataProvider.set(this, pinataManager, pinataRegistry, rewardService, statisticsService);
         getLogger().info("SupremePinata enabled with " + pinataRegistry.types().size() + " pinata type(s).");
     }
@@ -94,6 +112,8 @@ public final class SupremePinata extends JavaPlugin {
         if (integrationManager != null) integrationManager.disable();
         if (statisticsService != null) statisticsService.flushAndShutdown();
         SupremePinataProvider.clear();
+
+        context.shutdown();
     }
 
     public void reloadServices(boolean stopActiveEvent) {
@@ -104,6 +124,7 @@ public final class SupremePinata extends JavaPlugin {
         rewardService.reload();
         pinataRegistry.reload();
         votePartyService.reload();
+        moneyPoolService.reload();
         integrationManager.reload();
         if (stopActiveEvent) {
             pinataManager.stopActiveEvent("reload");
@@ -146,5 +167,9 @@ public final class SupremePinata extends JavaPlugin {
 
     public IntegrationManager getIntegrationManager() {
         return integrationManager;
+    }
+
+    public MoneyPoolService getMoneyPoolService() {
+        return moneyPoolService;
     }
 }

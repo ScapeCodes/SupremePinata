@@ -17,6 +17,7 @@ help: |
   <yellow>✦</yellow> <white>/pinata vote</white>
   <yellow>✦</yellow> <white>/pinata stats [player]</white>
   <yellow>✦</yellow> <white>/pinata debug</white>
+  <yellow>✦</yellow> <white>/pinatapool [money]</white>
   <yellow>✦</yellow> <white>/pinata reload</white>
   <yellow>✦</yellow> <white>/pinata location set <pinata> [name]</white>
   <yellow>✦</yellow> <white>/pinata location delete/list</white>
@@ -33,6 +34,7 @@ spawn-failed: "%prefix% <red>✖ Could not start the party for <white>%type%</wh
 survival-only-hit: "%prefix% <red>✖ Only survival mode players can hit the pinata."
 stop-success: "%prefix% <yellow>✦ Party stopped! The active pinata was cleaned up."
 reload-success: "%prefix% <green>✔ Party config reloaded! Messages, pinatas, rewards, locations and integrations are fresh."
+vault-required: "%prefix% <red>✖ Vault economy is required for the money pool."
 info-none: "%prefix% <gray>✦ No pinata party is active right now."
 info-active: "%prefix% <yellow>✦ Active party:</yellow> <white>%type%</white> <dark_gray>•</dark_gray> <green>%hits%/%required_hits%</green> <yellow>hits</yellow>"
 location-set: "%prefix% <green>✔ Party location <white>%name%</white> has been set."
@@ -41,6 +43,12 @@ location-delete: "%prefix% <yellow>✦ Party location <white>%name%</white> has 
 location-list: "%prefix% <yellow>✦ Party locations:</yellow> <white>%locations%</white>"
 location-save-failed: "%prefix% <red>✖ Could not save party locations. Check console for details."
 stats-loading: "%prefix% <gray>✦ Loading party stats for <white>%player%</white>..."
+money-pool-status: "%prefix% <gold>✦ Money Pool:</gold> <green>%current%</green><gray>/</gray><yellow>%target%</yellow> <gray>(remaining: %remaining%)</gray>"
+money-pool-contribution: "%prefix% <green>✔</green> <gold>%player%</gold> <yellow>added</yellow> <green>%amount%</green> <yellow>to the money pool!</yellow> <white>%current%</white><gray>/</gray><white>%target%</white>"
+money-pool-complete: "%prefix% <green>✔</green> <gradient:#f6d365:#fda085><bold>MONEY POOL COMPLETE!</bold></gradient> <yellow>Spawning the</yellow> <white>%pinata%</white> <yellow>pinata!</yellow>"
+money-pool-invalid-amount: "%prefix% <red>✖ Usage: <white>/pinatapool <money></white>"
+money-pool-payment-failed: "%prefix% <red>✖ Could not take that money from your balance."
+money-pool-disabled: "%prefix% <red>✖ The money pool is disabled right now."
 stats: |
   <dark_gray>✔</dark_gray> <gradient:#ff4d6d:#ffd166><bold>%player%'s PINATA STATS</bold></gradient> <dark_gray>✔</dark_gray>
   <yellow>✦</yellow> <white>Total Hits:</white> <green>%total_hits%</green>
