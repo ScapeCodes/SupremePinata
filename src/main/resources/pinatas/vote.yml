@@ -1,0 +1,58 @@
+id: vote
+display-name: "<gradient:#55ff55:#55ffff><bold>VOTE PINATA</bold></gradient>"
+entity:
+  type: LLAMA
+  knockback: false
+  invulnerable: true
+  glow: true
+  rainbow: true
+  rainbow-interval-ticks: 10
+event:
+  required-hits: 250
+  duration: 300
+  hit-cooldown-ms: 400
+  minimum-participation: 1
+  max-distance: 8
+  survival-only-hits: true
+movement:
+  enabled: true
+  # Blocks from the spawn location the pinata is allowed to run within.
+  speed: 1.1
+  radius: 18
+locations: []
+bossbar:
+  enabled: true
+  title: "<green>Vote Pinata <gray>• <white>%hits%/%required_hits% <gray>• <yellow>%time_remaining%s"
+  progress: true
+hologram:
+  enabled: true
+  height: 2.7
+  lines:
+    - "<green><bold>🎉 VOTE PINATA 🎉</bold>"
+    - "<white>%hits%</white><gray>/</gray><white>%required_hits%</white>"
+    - "<yellow>#1 %top_player% <white>%top_hits%</white>"
+sounds:
+  spawn: ENTITY_PLAYER_LEVELUP
+  hit: BLOCK_NOTE_BLOCK_PLING
+  complete: UI_TOAST_CHALLENGE_COMPLETE
+particles:
+  spawn: HAPPY_VILLAGER
+  hit: CRIT
+  complete: FIREWORK
+reward-pools:
+  hit:
+    vote_common:
+      weight: 90
+      experience: 10
+      message: "<dark_gray>[</dark_gray><gradient:#55ff55:#55ffff><bold>VOTE PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <yellow>Nice hit!</yellow> <white>+10 XP popped out!</white>"
+    vote_key_command:
+      weight: 10
+      commands:
+        - "crate key give %player% vote 1"
+      broadcast: "<dark_gray>[</dark_gray><gradient:#55ff55:#55ffff><bold>VOTE PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <aqua>%player%</aqua> <yellow>found a vote crate key in the pinata!</yellow>"
+  participation:
+    vote_participation:
+      weight: 100
+      commands:
+        - "eco give %player% 250"
+      message: "<dark_gray>[</dark_gray><gradient:#55ff55:#55ffff><bold>VOTE PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <yellow>Thanks for voting and joining the party!</yellow> <white>You received the end-party participation reward.</white>"

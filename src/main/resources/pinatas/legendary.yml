@@ -1,0 +1,76 @@
+id: legendary
+display-name: "<gradient:#FFD700:#FF8C00><bold>LEGENDARY PINATA</bold></gradient>"
+entity:
+  type: LLAMA
+  knockback: false
+  invulnerable: true
+  glow: true
+  rainbow: true
+  rainbow-interval-ticks: 5
+event:
+  required-hits: 500
+  duration: 300
+  hit-cooldown-ms: 350
+  minimum-participation: 5
+  max-distance: 8
+  survival-only-hits: true
+movement:
+  enabled: true
+  # Blocks from the spawn location the pinata is allowed to run within.
+  speed: 1.15
+  radius: 20
+locations:
+  - spawn
+  - arena
+bossbar:
+  enabled: true
+  title: "<yellow>🪅 Legendary Pinata <gray>• <white>%hits%/%required_hits% <gray>• <gold>#1 %top_player%"
+  progress: true
+  color: YELLOW
+  overlay: PROGRESS
+hologram:
+  enabled: true
+  height: 2.8
+  lines:
+    - "<gold><bold>🪅 LEGENDARY PINATA 🪅</bold>"
+    - "<white>%hits%</white><gray>/</gray><white>%required_hits%</white> <yellow>Hits"
+    - "<gray>Final hit and top players win big!</gray>"
+sounds:
+  spawn: ENTITY_ENDER_DRAGON_GROWL
+  hit: ENTITY_LLAMA_HURT
+  complete: UI_TOAST_CHALLENGE_COMPLETE
+particles:
+  spawn: TOTEM_OF_UNDYING
+  hit: CRIT
+  complete: FIREWORK
+reward-pools:
+  hit:
+    common:
+      weight: 70
+      commands:
+        - "eco give %player% 250"
+      message: "<dark_gray>[</dark_gray><gradient:#FFD700:#FF8C00><bold>LEGENDARY</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <yellow>Gold burst!</yellow> <white>You found $250 in the legendary pinata!</white>"
+    rare:
+      weight: 25
+      items:
+        diamond:
+          material: DIAMOND
+          amount: 3
+      message: "<dark_gray>[</dark_gray><gradient:#FFD700:#FF8C00><bold>LEGENDARY</bold></gradient><dark_gray>]</dark_gray> <aqua>✦ Diamond shower!</aqua> <white>You found 3 diamonds!</white>"
+    legendary:
+      weight: 5
+      commands:
+        - "crate key give %player% legendary 1"
+      broadcast: "<dark_gray>[</dark_gray><gradient:#FFD700:#FF8C00><bold>LEGENDARY</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>found a LEGENDARY reward!</yellow>"
+  final-hit:
+    final_legendary:
+      weight: 100
+      commands:
+        - "give %player% netherite_ingot 2"
+      broadcast: "<dark_gray>[</dark_gray><gradient:#FFD700:#FF8C00><bold>LEGENDARY</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>landed the legendary final hit!</yellow>"
+  top-1:
+    champion:
+      weight: 100
+      commands:
+        - "give %player% diamond_block 5"
+      broadcast: "<dark_gray>[</dark_gray><gradient:#FFD700:#FF8C00><bold>LEGENDARY</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>dominated the Legendary Pinata!</yellow>"

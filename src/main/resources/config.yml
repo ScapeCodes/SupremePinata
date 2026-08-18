@@ -1,0 +1,37 @@
+settings:
+  locale: en_US
+  debug: false
+
+reload:
+  # Active events are deliberately stopped on reload so entities, bossbars and displays cannot duplicate.
+  stop-active-event: true
+
+vote-party:
+  enabled: true
+  required-votes: 100
+  current-votes: 0
+  pinata: vote
+  reset-after-party: true
+  announcements:
+    milestones: [25, 50, 75, 90]
+
+triggers:
+  vote:
+    enabled: true
+  schedule:
+    enabled: false
+  player-count:
+    enabled: false
+  command:
+    enabled: true
+
+storage:
+  type: sqlite
+
+vote-sites:
+  minecraft-server-list:
+    name: "Minecraft Server List"
+    url: "https://minecraft-server-list.com/"
+  planet-minecraft:
+    name: "Planet Minecraft"
+    url: "https://www.planetminecraft.com/"

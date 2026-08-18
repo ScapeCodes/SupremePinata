@@ -1,0 +1,39 @@
+prefix: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA PARTY</bold></gradient><dark_gray>]</dark_gray>"
+no-permission: "%prefix% <red>✖ Party pass denied! You do not have permission to do that."
+unknown-command: "%prefix% <red>✖ That party trick does not exist! Use <white>/pinata help</white>."
+help: |
+  <dark_gray>✔</dark_gray> <gradient:#ff4d6d:#ffd166><bold>PINATA PARTY COMMANDS</bold></gradient> <dark_gray>✔</dark_gray>
+  <yellow>✦</yellow> <white>/pinata spawn <type> [x world y z]</white>
+  <yellow>✦</yellow> <white>/pinata stop</white>
+  <yellow>✦</yellow> <white>/pinata info</white>
+  <yellow>✦</yellow> <white>/pinata menu</white>
+  <yellow>✦</yellow> <white>/pinata editor <type></white>
+  <yellow>✦</yellow> <white>/pinata vote</white>
+  <yellow>✦</yellow> <white>/pinata reload</white>
+  <yellow>✦</yellow> <white>/pinata location set <pinata> [name]</white>
+  <yellow>✦</yellow> <white>/pinata location delete/list</white>
+usage-spawn: "%prefix% <red>✖ Usage: <white>/pinata spawn <type> [x y z world]</white>"
+usage-editor: "%prefix% <red>✖ Usage: <white>/pinata editor <type></white>"
+usage-location: "%prefix% <red>✖ Usage: <white>/pinata location set <pinata> [name]</white>, <white>delete <name></white>, or <white>list</white>"
+player-only: "%prefix% <red>✖ Only players can open menus."
+unknown-pinata: "%prefix% <red>✖ Unknown pinata type: <white>%type%</white>."
+invalid-world: "%prefix% <red>✖ That party world is not loaded."
+invalid-location: "%prefix% <red>✖ Those party coordinates look wrong."
+spawn-success: "%prefix% <green>✔</green> <yellow>LET'S PARTY!</yellow> <white>%type%</white> <green>pinata has spawned!"
+spawn-failed: "%prefix% <red>✖ Could not start the party for <white>%type%</white>. Check the id, location, or active event."
+survival-only-hit: "%prefix% <red>✖ Only survival mode players can hit the pinata."
+stop-success: "%prefix% <yellow>✦ Party stopped! The active pinata was cleaned up."
+reload-success: "%prefix% <green>✔ Party config reloaded! Messages, pinatas, rewards, locations and integrations are fresh."
+info-none: "%prefix% <gray>✦ No pinata party is active right now."
+info-active: "%prefix% <yellow>✦ Active party:</yellow> <white>%type%</white> <dark_gray>•</dark_gray> <green>%hits%/%required_hits%</green> <yellow>hits</yellow>"
+location-set: "%prefix% <green>✔ Party location <white>%name%</white> has been set."
+location-set-pinata: "%prefix% <green>✔ Party location <white>%name%</white> has been set and assigned to <white>%type%</white>."
+location-delete: "%prefix% <yellow>✦ Party location <white>%name%</white> has been removed."
+location-list: "%prefix% <yellow>✦ Party locations:</yellow> <white>%locations%</white>"
+location-save-failed: "%prefix% <red>✖ Could not save party locations. Check console for details."
+event-started: "%prefix% <green>✔</green> <gradient:#ff4d6d:#ffd166><bold>A PINATA PARTY HAS STARTED!</bold></gradient> <yellow>Hit it for prizes!</yellow>"
+event-complete: "%prefix% <green>✔</green> <gold>%player%</gold> <yellow>landed the final hit!</yellow> <gradient:#ff4d6d:#ffd166><bold>PARTY COMPLETE!</bold></gradient>"
+vote-milestone: "%prefix% <aqua>✦ Vote Party:</aqua> <white>%votes%/%required%</white> <yellow>votes collected!</yellow>"
+vote-party-start: "%prefix% <green>✔</green> <gradient:#55ff55:#55ffff><bold>VOTE GOAL REACHED!</bold></gradient> <yellow>Starting a vote pinata party!</yellow>"
+menu-editor-saved: "%prefix% <green>✔ Pinata editor saved and reloaded."
+menu-editor-save-failed: "%prefix% <red>✖ Could not save that pinata file. Check console for details."

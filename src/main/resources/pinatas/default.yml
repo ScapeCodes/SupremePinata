@@ -1,0 +1,84 @@
+id: default
+display-name: "<gradient:#ff4d6d:#ffd166><bold>PINATA PARTY</bold></gradient>"
+entity:
+  type: LLAMA
+  knockback: false
+  invulnerable: true
+  glow: true
+  rainbow: true
+  rainbow-interval-ticks: 10
+event:
+  required-hits: 150
+  duration: 300
+  hit-cooldown-ms: 450
+  max-hits-per-player: -1
+  minimum-participation: 1
+  max-distance: 8
+  projectile-hits: false
+  survival-only-hits: true
+movement:
+  enabled: true
+  # Blocks from the spawn location the pinata is allowed to run within.
+  speed: 1.05
+  radius: 16
+locations: []
+bossbar:
+  enabled: true
+  title: "<yellow>🪅 Pinata <gray>• <white>%hits%/%required_hits% <gray>• <aqua>%top_player% %top_hits%"
+  progress: true
+  color: YELLOW
+  overlay: PROGRESS
+hologram:
+  enabled: true
+  height: 2.6
+  lines:
+    - "<gradient:#ff4d6d:#ffd166><bold>🪅 PINATA PARTY 🪅</bold></gradient>"
+    - "<white>%hits%</white><gray>/</gray><white>%required_hits%</white> <yellow>Hits"
+    - "<gray>Top:</gray> <aqua>%top_player%</aqua> <white>%top_hits%</white>"
+    - "<green>Hit it for rewards!</green>"
+sounds:
+  spawn: ENTITY_FIREWORK_ROCKET_LAUNCH
+  hit: ENTITY_LLAMA_HURT
+  complete: UI_TOAST_CHALLENGE_COMPLETE
+particles:
+  spawn: HAPPY_VILLAGER
+  hit: CRIT
+  complete: FIREWORK
+reward-pools:
+  hit:
+    common_money:
+      weight: 70
+      commands:
+        - "say %player% hit the pinata!"
+      message: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <yellow>Sweet hit!</yellow> <white>A small prize popped out!</white>"
+    diamonds:
+      weight: 20
+      items:
+        diamond:
+          material: DIAMOND
+          amount: 2
+      message: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <aqua>✦ Sparkle drop!</aqua> <white>You found diamonds inside the pinata!</white>"
+    supremetags_example:
+      weight: 1
+      commands:
+        - "supremetags grant %player% pinata_master"
+      broadcast: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>found a rare Pinata Master tag reward!</yellow>"
+  participation:
+    xp:
+      weight: 100
+      experience: 50
+      message: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <yellow>Thanks for joining the Pinata Party!</yellow>"
+  final-hit:
+    final:
+      weight: 100
+      items:
+        emerald:
+          material: EMERALD
+          amount: 8
+      broadcast: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>received the final-hit reward!</yellow>"
+  top-1:
+    winner:
+      weight: 100
+      commands:
+        - "give %player% gold_block 3"
+      broadcast: "<dark_gray>[</dark_gray><gradient:#ff4d6d:#ffd166><bold>PINATA</bold></gradient><dark_gray>]</dark_gray> <green>✔</green> <gold>%player%</gold> <yellow>was the #1 pinata contributor!</yellow>"

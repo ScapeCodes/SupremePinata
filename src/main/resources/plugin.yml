@@ -1,0 +1,50 @@
+name: SupremePinata
+description: The ultimate free Pinata Party plugin for modern Minecraft servers.
+version: '${version}'
+
+main: net.scape.project.supremepinata.SupremePinata
+api-version: '1.21'
+load: POSTWORLD
+
+authors: [ Scape ]
+folia-supported: true
+softdepend: [PlaceholderAPI, Vault, NuVotifier, VotifierPlus, SupremeTags]
+libraries:
+  - org.xerial:sqlite-jdbc:3.47.2.0
+commands:
+  pinata:
+    description: SupremePinata administrative command.
+    usage: /pinata help
+    aliases: [supremepinata, spinata]
+permissions:
+  supremepinata.admin:
+    description: Allows all SupremePinata admin commands.
+    default: op
+    children:
+      supremepinata.command.spawn: true
+      supremepinata.command.stop: true
+      supremepinata.command.info: true
+      supremepinata.command.menu: true
+      supremepinata.command.editor: true
+      supremepinata.command.vote: true
+      supremepinata.command.reload: true
+      supremepinata.command.location: true
+      supremepinata.command.help: true
+  supremepinata.command.spawn:
+    default: op
+  supremepinata.command.stop:
+    default: op
+  supremepinata.command.info:
+    default: op
+  supremepinata.command.menu:
+    default: op
+  supremepinata.command.editor:
+    default: op
+  supremepinata.command.vote:
+    default: true
+  supremepinata.command.reload:
+    default: op
+  supremepinata.command.location:
+    default: op
+  supremepinata.command.help:
+    default: true
